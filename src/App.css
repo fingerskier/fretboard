@@ -1,0 +1,54 @@
+.string {
+  display: flex;
+  flex-direction: row;
+}
+
+.cell {
+  border-right: thin ridge gray;
+  margin: 0;
+  min-width: 2rem;
+  text-align: center;
+}
+
+
+.fret-0 {
+  width: 3rem;
+}
+.fret-1 {
+  width: 2.95rem;
+}
+
+
+.cell.highlight {
+  background-color: yellow;
+}
+
+.note.selector {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.note.selector .highlight {
+  background-color: yellow;
+}
+
+.note.selector label {
+  position: relative;
+  border: thin solid red;
+  margin: 0.2rem;
+  padding: 1rem;
+}
+
+.note.selector label:hover {
+  background-color: yellow;
+}
+
+.note.selector input:checked {
+  background-color: yellow;
+}
+
+.note.selector input:active {
+  background-color: yellow;
+}
