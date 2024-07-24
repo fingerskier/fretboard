@@ -1,3 +1,8 @@
+label {
+  text-align: right;
+  vertical-align: middle;
+}
+
 .string {
   display: flex;
   flex-direction: row;

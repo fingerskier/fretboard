@@ -3,14 +3,27 @@ import { indexNote } from '../lib/helpers'
 import { useGuitar } from '../guitarContext'
 
 
+const inPosition = (fret,position)=>{
+  return ((fret-position) >= 0) && ((fret-position) < 4)
+}
+
+
+const inVoice = (string,voice,size=3)=>{
+  // a voice is the set of adjacent strings that can be covered by all common chord shapes in a domain
+  // the default of 3 represents triads, 3-finger chords
+  return (string-voice) <= (size-1)
+}
+
+
 export default function Cell({
   fret,
   noteIndex,
+  string,
 }) {
-  const [state, setState] = useGuitar()
+  const [state] = useGuitar()
   
-  const [note, setNote] = useState(indexNote(noteIndex))
   const [highlight, setHighlight] = useState('')
+  const [note, setNote] = useState(indexNote(noteIndex))
   
   
   useEffect(() => {
@@ -19,12 +32,35 @@ export default function Cell({
   
   
   useEffect(() => {
-    if (state.highlights?.[note[0]]) {
+    const pitch = note[0]
+    const octave = +note[1]
+    
+    const pitchHighlight = state.highlights? state.highlights?.[pitch]: true
+    const octaveHighlight = state.octave? state.octave.includes(octave): true
+    const voiceHighlight = state.voice? inVoice(string,state.voice): true
+    const positionHighlight = state.position? inPosition(fret,state.position): true
+    
+    
+    if (pitchHighlight && octaveHighlight && voiceHighlight && positionHighlight) {
       setHighlight('highlight')
     } else {
       setHighlight('')
     }
-  }, [state.highlights])
+    // if (state.highlights?.[pitch]) {
+    //   console.log(state.octave, octave, state.octave.includes(octave))
+    //   if (state.octave) {
+    //     if (state.octave.includes(octave)) {
+    //       setHighlight('highlight')
+    //     } else {
+    //       setHighlight('')
+    //     }
+    //   } else {
+    //     setHighlight('highlight')
+    //   }
+    // } else {
+    //   setHighlight('')
+    // }
+  }, [state])
   
   
   return <div className={`cell ${highlight}`}>

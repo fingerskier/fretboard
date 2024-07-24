@@ -3,10 +3,8 @@ import Cell from './Cell'
 import { noteIndex } from '../lib/helpers'
 
 
-export default function String({
+export default function Markers({
   length=21,
-  number,
-  openNote,
 }) {
   const [notes, setNotes] = useState([])
   

@@ -1,6 +1,9 @@
 import {useGuitar} from '../../guitarContext'
 import Chords from './Chords'
 import Notes from './Notes'
+import Octave from './Octave'
+import Position from './Position'
+import Voice from './Voice'
 
 
 export default function Controls() {
@@ -12,8 +15,14 @@ export default function Controls() {
     
     <Chords />
     
+    <Position />
+    
+    <Voice />
+    
     <Notes />
     
-    <pre>{JSON.stringify(state,null,2)}</pre>
+    <Octave />
+    
+    {/* <pre>{JSON.stringify(state,null,2)}</pre> */}
   </div>
 }
