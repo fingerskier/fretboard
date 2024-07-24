@@ -24,7 +24,7 @@ export default function Fretboard({
       <String
         key={I}
         length={numberOfFrets}
-        number={I}
+        number={I+1}
         openNote={string}
       />
     )}

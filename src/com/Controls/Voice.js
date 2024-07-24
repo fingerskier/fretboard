@@ -28,23 +28,22 @@ export default function Voice() {
   
   
   return <div>
-    <label>
-      Highlight notes only in a certain voice:
-      
-      <select
-        value={voice}
-        onChange={handleOctaveChange}
-        size={9}
-      >
-        <option value={null}> All </option>
-        
-        {Array.from({length: numVoices}).map((_, i)=><option
-          value={i+1}
-          >
-          {i+1}
-        </option>)}
-      </select>
-    </label>
+    Highlight notes only in a certain voice:
+    <br />
     <sub>a voice is a group of 3 strings</sub>
+    
+    <select
+      value={voice}
+      onChange={handleOctaveChange}
+      size={9}
+    >
+      <option value={null}> All </option>
+      
+      {Array.from({length: numVoices}).map((_, i)=><option
+        value={i+1}
+        >
+        {i+1}
+      </option>)}
+    </select>
   </div>
 }

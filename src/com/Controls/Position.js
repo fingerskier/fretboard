@@ -30,20 +30,18 @@ export default function Position() {
   return <div>
     Highlight notes only in a certain position:
     
-    <label>
-      <select
-        value={position}
-        onChange={handleOctaveChange}
-        size={9}
+    <select
+      value={position}
+      onChange={handleOctaveChange}
+      size={9}
+    >
+      <option value={null}> All </option>
+      
+      {Array.from({length: numPositions}).map((_, i)=><option
+        value={i}
       >
-        <option value={null}> All </option>
-        
-        {Array.from({length: numPositions}).map((_, i)=><option
-          value={i}
-        >
-          {i}
-        </option>)}
-      </select>
-    </label>
+        {i}
+      </option>)}
+    </select>
   </div>
 }

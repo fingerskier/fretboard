@@ -1,6 +1,8 @@
-label {
-  text-align: right;
+#controls > div {
+  display: flex;
+  text-align: center;
   vertical-align: middle;
+  border: thick ridge brown;
 }
 
 .string {
@@ -33,6 +35,7 @@ label {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  width: 20rem;
 }
 
 .note.selector .highlight {

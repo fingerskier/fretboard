@@ -11,7 +11,7 @@ const inPosition = (fret,position)=>{
 const inVoice = (string,voice,size=3)=>{
   // a voice is the set of adjacent strings that can be covered by all common chord shapes in a domain
   // the default of 3 represents triads, 3-finger chords
-  return (string-voice) <= (size-1)
+  return ((string-voice) < size) && ((string-voice) >= 0)
 }
 
 
@@ -46,20 +46,6 @@ export default function Cell({
     } else {
       setHighlight('')
     }
-    // if (state.highlights?.[pitch]) {
-    //   console.log(state.octave, octave, state.octave.includes(octave))
-    //   if (state.octave) {
-    //     if (state.octave.includes(octave)) {
-    //       setHighlight('highlight')
-    //     } else {
-    //       setHighlight('')
-    //     }
-    //   } else {
-    //     setHighlight('highlight')
-    //   }
-    // } else {
-    //   setHighlight('')
-    // }
   }, [state])
   
   

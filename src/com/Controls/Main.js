@@ -10,7 +10,7 @@ export default function Controls() {
   const [state] = useGuitar()
   
   
-  return <div>
+  return <div id="controls">
     <h3>Controls</h3>
     
     <Chords />
