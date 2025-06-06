@@ -1,26 +1,73 @@
-#controls > .controls-section {
-  display: flex;
-  text-align: center;
+.controls-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.controls-section {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  text-align: left;
+  background-color: #f9f9f9;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.controls-section h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+/* Form Elements Styling */
+.controls-section select,
+.controls-section input[type="checkbox"],
+.controls-section input[type="text"] {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.controls-section label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+  color: #444;
+  /* General text styles from .controls-section will apply for font-size */
+}
+
+.controls-section input[type="checkbox"] {
+  margin-right: 0.5rem;
   vertical-align: middle;
-  border: thick ridge brown;
+  /* Checkboxes are typically not full width */
+}
+
+.controls-section select {
+  width: 100%; /* Make select elements fill their container */
 }
 
 .string {
   display: flex;
   flex-direction: row;
+  background: linear-gradient(to bottom, #8B4513, #A0522D);
 }
 
 .cell {
-  border-right: thin ridge gray;
+  border-right: 2px solid silver;
   margin: 0;
   text-align: center;
   flex-grow: 1;
   flex-basis: 0;
 }
 
+/* Specific Widget Styles */
 
+/* Note Selector */
 .cell.highlight {
-  background-color: yellow;
+  background-color: #d3d3d3; /* Light gray highlight */
 }
 
 .note.selector {
@@ -29,18 +76,45 @@
   flex-direction: row;
   flex-wrap: wrap;
   width: 20rem;
+  /* display: flex, flex-direction: row, flex-wrap: wrap are kept */
 }
 
 .note.selector .highlight,
 .note.selector label:hover,
-.note.selector input:checked,
-.note.selector input:active {
-  background-color: yellow;
+.note.selector input:checked, /* Assuming checkboxes are used for selection */
+.note.selector input:active { /* Might not be applicable for all inputs */
+  background-color: #e0e0e0; /* Subtle highlight */
 }
 
 .note.selector label {
   position: relative;
-  border: thin solid red;
+  /* border: thin solid red; REMOVED */
+  border: 1px solid #ccc; /* Consistent with other form elements */
+  border-radius: 4px; /* Consistent with other form elements */
   margin: 0.2rem;
-  padding: 1rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #fff; /* Match other inputs */
+  /* font-weight, color, display: block will be inherited or should be set if needed */
+}
+
+/* Tuning Widget - .string-tuning-controls */
+.string-tuning-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.string-tuning-controls span {
+  margin-right: 0.5rem;
+  /* Consider font-weight: bold; if it's a label for the select */
+}
+
+.string-tuning-controls select {
+  flex-grow: 1;
+  margin-right: 0.5rem; /* Spacing between multiple selects or other elements */
+}
+
+/* Ensure last select in a .string-tuning-controls group doesn't have margin-right if it's the last element */
+.string-tuning-controls select:last-child {
+  margin-right: 0;
 }
