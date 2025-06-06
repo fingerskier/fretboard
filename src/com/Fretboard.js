@@ -5,18 +5,18 @@ import {useGuitar} from '../guitarContext'
 
 export default function Fretboard({
   numberOfFrets=22,
-  strings=['e2', 'a2', 'd3', 'g3', 'b3', 'e3'],
+  // strings prop removed, will use tuning from context
 }) {
-  const [state] = useGuitar()
+  const { tuning } = useGuitar(); // Changed to get tuning from context
   
   const [startingNotes, setStartingNotes] = useState([])
   
   
   useEffect(() => {
-    if (strings?.map) {
-      setStartingNotes([...strings].reverse())
+    if (tuning?.map) { // Changed from strings to tuning
+      setStartingNotes([...tuning].reverse()) // Changed from strings to tuning
     }
-  }, [strings])
+  }, [tuning]) // Changed from strings to tuning
   
   
   return <>
@@ -29,6 +29,6 @@ export default function Fretboard({
       />
     )}
     
-    {/* <pre> {JSON.stringify(state, null, 2)} </pre> */}
+    {/* <pre> {JSON.stringify(tuning, null, 2)} </pre> {/* Optionally log tuning for debugging */}
   </>
 }
