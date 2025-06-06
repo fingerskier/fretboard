@@ -1,4 +1,4 @@
-#controls > div {
+#controls > .controls-section {
   display: flex;
   text-align: center;
   vertical-align: middle;
@@ -13,16 +13,9 @@
 .cell {
   border-right: thin ridge gray;
   margin: 0;
-  min-width: 2rem;
   text-align: center;
-}
-
-
-.fret-0 {
-  width: 3rem;
-}
-.fret-1 {
-  width: 2.95rem;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
 
@@ -38,7 +31,10 @@
   width: 20rem;
 }
 
-.note.selector .highlight {
+.note.selector .highlight,
+.note.selector label:hover,
+.note.selector input:checked,
+.note.selector input:active {
   background-color: yellow;
 }
 
@@ -47,16 +43,4 @@
   border: thin solid red;
   margin: 0.2rem;
   padding: 1rem;
-}
-
-.note.selector label:hover {
-  background-color: yellow;
-}
-
-.note.selector input:checked {
-  background-color: yellow;
-}
-
-.note.selector input:active {
-  background-color: yellow;
 }
