@@ -5,7 +5,7 @@ const numVoices = 4
 
 
 export default function Voice() {
-  const [state, setState] = useGuitar()
+  const {guitarState: state, setGuitarState: setState} = useGuitar()
   
   const [voice, setVoice] = useState()
   

@@ -20,7 +20,7 @@ export default function Cell({
   noteIndex,
   string,
 }) {
-  const [state] = useGuitar()
+  const {guitarState: state} = useGuitar()
   
   const [highlight, setHighlight] = useState('')
   const [note, setNote] = useState(indexNote(noteIndex))

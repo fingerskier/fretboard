@@ -5,7 +5,7 @@ const numPositions = 17
 
 
 export default function Position() {
-  const [state, setState] = useGuitar()
+  const {guitarState: state, setGuitarState: setState} = useGuitar()
   
   const [position, setPosition] = useState()
   

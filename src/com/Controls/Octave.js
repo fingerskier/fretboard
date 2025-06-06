@@ -4,7 +4,7 @@ import {useGuitar} from '../../guitarContext'
 
 
 export default function Notes() {
-  const [state, setState] = useGuitar()
+  const {guitarState: state, setGuitarState: setState} = useGuitar()
   
   const [octave, setOctave] = useState()
   

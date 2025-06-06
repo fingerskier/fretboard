@@ -5,7 +5,7 @@ import {chordNotes, indexNote, noteIndex} from '../../lib/helpers'
 
 
 export default function Chords() {
-  const [state, setState] = useGuitar()
+  const {guitarState: state, setGuitarState: setState} = useGuitar()
   
   const [flavor, setFlavor] = useState('M')
   const [localNotes, setLocalNotes] = useState([])

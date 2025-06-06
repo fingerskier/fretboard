@@ -1,4 +1,3 @@
-import {useGuitar} from '../../guitarContext'
 import Chords from './Chords'
 import Notes from './Notes'
 import Octave from './Octave'
@@ -8,9 +7,6 @@ import Tuning from './Tuning';
 
 
 export default function Controls() {
-  const [state] = useGuitar()
-  
-  
   return <div id="controls">
     <h3>Controls</h3>
     

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useGuitar } from '../../../guitarContext';
-import { notes } from '../../../lib/constants';
+import { useGuitar } from '../../guitarContext';
+import { notes } from '../../lib/constants';
 // Assuming noteIndex and indexNote might not be strictly needed if parsing/constructing manually
 // but will include them for now as per instructions.
-import { noteIndex, indexNote } from '../../../lib/helpers';
+import { noteIndex, indexNote } from '../../lib/helpers';
 
 const OCTAVE_RANGE = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
