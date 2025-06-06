@@ -7,7 +7,7 @@ import Tuning from './Tuning';
 
 
 export default function Controls() {
-  return <div id="controls">
+  return <div id="controls" className="controls-grid-container">
     <h3>Controls</h3>
     
     <Chords />
