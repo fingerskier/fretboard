@@ -27,7 +27,7 @@ export default function Notes() {
   }, [octave])
   
   
-  return <div>
+  return <div className="controls-section">
     Highlight notes only in a certain octave:
     
     <label>

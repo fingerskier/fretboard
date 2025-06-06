@@ -27,7 +27,7 @@ export default function Voice() {
   }, [voice])
   
   
-  return <div>
+  return <div className="controls-section">
     Highlight notes only in a certain voice:
     <br />
     <sub>a voice is a group of 3 strings</sub>

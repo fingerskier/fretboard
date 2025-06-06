@@ -37,7 +37,7 @@ export default function Chords() {
   }, [localNotes])
   
   
-  return <div>
+  return <div className="controls-section">
     Highlight notes in this chord:
     
     <select

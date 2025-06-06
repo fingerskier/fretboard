@@ -32,7 +32,7 @@ export default function Notes() {
   }, [highlights])
   
   
-  return <div>
+  return <div className="controls-section">
     Highlight these notes:
     
     <div className='note selector'>

@@ -27,7 +27,7 @@ export default function Position() {
   }, [position])
   
   
-  return <div>
+  return <div className="controls-section">
     Highlight notes only in a certain position:
     
     <select
