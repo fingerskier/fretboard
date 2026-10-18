@@ -10,7 +10,6 @@ const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
 export const SHARP_NAMES = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B']
 export const FLAT_NAMES = ['C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B♭', 'B']
 export const SEMI_NAMES = ['1', '♭2', '2', '♭3', '3', '4', '♭5', '5', '♭6', '6', '♭7', '7']
-const CHORD_TONE = {0: 'R', 1: '♭9', 2: '9', 3: '♭3', 4: '3', 5: '4', 6: '♭5', 7: '5', 8: '♯5', 9: '6', 10: '♭7', 11: '7'}
 
 // parentOffset: semitones from the parent major's tonic up to this scale's tonic.
 // chordScale: pentatonic and blues scales borrow their chords from this scale.
@@ -91,14 +90,21 @@ export const spellKey = (rootPc, scaleId) => {
   const flats = notes.some(n => n.acc < 0)
   const byPc = {}
   notes.forEach(n => { if (!byPc[n.pc]) byPc[n.pc] = n })
-  const sharpCount = notes.filter(n => n.acc > 0).length
-  const flatCount = notes.filter(n => n.acc < 0).length
+
+  // The signature belongs to the parent major: D harmonic minor is 1♭ despite its C♯.
+  let signature
+  if (scale.id === 'major') {
+    const sharps = notes.filter(n => n.acc > 0).length
+    const flatCount = notes.filter(n => n.acc < 0).length
+    signature = sharps ? `${sharps}♯` : flatCount ? `${flatCount}♭` : 'no ♯/♭'
+  } else {
+    signature = spellKey(wrap12(rootPc - scale.parentOffset), 'major').signature
+  }
 
   return {
-    rootPc, scale, notes, byPc,
+    rootPc, scale, notes, byPc, signature,
     rootName: notes[0].name,
     title: `${notes[0].name} ${scale.label.toLowerCase()}`,
-    signature: sharpCount ? `${sharpCount}♯` : flatCount ? `${flatCount}♭` : 'no ♯/♭',
     nameOf: pc => byPc[wrap12(pc)]?.name ?? (flats ? FLAT_NAMES : SHARP_NAMES)[wrap12(pc)],
     intervalOf: pc => byPc[wrap12(pc)]?.interval ?? SEMI_NAMES[wrap12(pc - rootPc)],
   }
@@ -132,6 +138,11 @@ const chordQuality = ints => {
 }
 
 
+// Tone k of a stacked-thirds chord is its 1st, 3rd, 5th or 7th; name it by that degree,
+// so the top of a diminished seventh is ♭♭7 rather than the enharmonic 6.
+const chordRole = (k, semi) => k === 0 ? 'R' : accText(semi - MAJOR[2 * k]) + (2 * k + 1)
+
+
 // The chords built on each degree of a 7-note scale; [] for anything else.
 export const diatonicChords = (key, sevenths = false) => {
   const {notes} = key
@@ -144,7 +155,7 @@ export const diatonicChords = (key, sevenths = false) => {
     const accidental = n.interval.replace(/[0-9]/g, '')
     const numeral = triad === 'min' || triad === 'dim' ? ROMAN[i].toLowerCase() : ROMAN[i]
     const suffix = triad === 'dim' ? (sevenths && ints[3] === 10 ? 'ø7' : sevenths ? '°7' : '°')
-      : triad === 'aug' ? '+'
+      : triad === 'aug' ? (sevenths ? (ints[3] === 11 ? '+maj7' : '+7') : '+')
       : sevenths ? (ints[3] === 11 ? 'maj7' : '7')
       : ''
 
@@ -154,7 +165,7 @@ export const diatonicChords = (key, sevenths = false) => {
       numeral: accidental + numeral + suffix,
       name: n.name + symbol,
       quality: triad,
-      tones: tones.map((t, k) => ({pc: t.pc, name: t.name, role: CHORD_TONE[ints[k]]})),
+      tones: tones.map((t, k) => ({pc: t.pc, name: t.name, role: chordRole(k, ints[k])})),
     }
   })
 }

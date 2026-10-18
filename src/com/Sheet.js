@@ -1,24 +1,55 @@
 import {useEffect, useId, useRef} from 'react'
 
+const FOCUSABLE = 'button:not([disabled]), select:not([disabled]), input:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'
 
-// Bottom sheet for phones. Done, the backdrop and Escape all close it; focus returns to the opener.
+
+// Bottom sheet for phones. Done, the backdrop and Escape all close it.
+// While open, the rest of the app is inert and Tab cycles inside the sheet; focus returns to the opener.
 export default function Sheet({title, open, onClose, children}) {
   const titleId = useId()
+  const layer = useRef(null)
   const sheet = useRef(null)
-  const opener = useRef(null)
 
   useEffect(() => {
     if (!open) return
 
-    opener.current = document.activeElement
-    sheet.current?.focus()
+    const opener = document.activeElement
+    const background = [...layer.current.parentElement.children].filter(el => el !== layer.current)
+    background.forEach(el => el.setAttribute('inert', ''))
+    sheet.current.focus()
 
-    return () => opener.current?.focus?.()
+    return () => {
+      background.forEach(el => el.removeAttribute('inert'))
+      opener?.focus?.()
+    }
   }, [open])
+
+  const onKeyDown = e => {
+    if (e.key === 'Escape') {
+      onClose()
+      return
+    }
+    if (e.key !== 'Tab') return
+
+    const items = [...sheet.current.querySelectorAll(FOCUSABLE)]
+    if (!items.length) return
+
+    const first = items[0]
+    const last = items[items.length - 1]
+    const active = document.activeElement
+
+    if (e.shiftKey && (active === first || active === sheet.current)) {
+      e.preventDefault()
+      last.focus()
+    } else if (!e.shiftKey && active === last) {
+      e.preventDefault()
+      first.focus()
+    }
+  }
 
   if (!open) return null
 
-  return <div className="sheet-layer">
+  return <div className="sheet-layer" ref={layer}>
     <button type="button" className="sheet-layer__scrim" tabIndex={-1} aria-label="Close" onClick={onClose} />
 
     <div
@@ -28,7 +59,7 @@ export default function Sheet({title, open, onClose, children}) {
       aria-labelledby={titleId}
       tabIndex={-1}
       ref={sheet}
-      onKeyDown={e => { if (e.key === 'Escape') onClose() }}
+      onKeyDown={onKeyDown}
     >
       <span className="sheet__handle" aria-hidden="true" />
 

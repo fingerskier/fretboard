@@ -52,6 +52,15 @@ test('intervals are named against the major scale', () => {
 })
 
 
+test('key signatures come from the parent major', () => {
+  expect(spellKey(2, 'harmonicMinor').signature).toBe('1♭')
+  expect(spellKey(7, 'majorPent').signature).toBe('1♯')
+  expect(spellKey(9, 'blues').signature).toBe('no ♯/♭')
+  expect(spellKey(3, 'minor').signature).toBe('6♯')
+  expect(spellKey(5, 'major').signature).toBe('1♭')
+})
+
+
 test('notes outside the key follow its accidentals', () => {
   expect(spellKey(0, 'major').nameOf(1)).toBe('C♯')
   expect(spellKey(5, 'major').nameOf(1)).toBe('D♭')
@@ -84,6 +93,8 @@ test('diatonic triads and sevenths', () => {
   expect(harmonic[6].name).toBe('G♯°7')
 
   expect(diatonicChords(C, true)[4].tones.map(t => t.name + t.role)).toEqual(['GR', 'B3', 'D5', 'F♭7'])
+  expect(harmonic[2].numeral).toBe('♭III+maj7')
+  expect(harmonic[6].tones.map(t => t.name + ' ' + t.role)).toEqual(['G♯ R', 'B ♭3', 'D ♭5', 'F ♭♭7'])
   expect(diatonicChords(spellKey(4, 'minorPent'))).toEqual([])
 })
 

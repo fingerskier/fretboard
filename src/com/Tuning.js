@@ -1,8 +1,8 @@
 import {useGuitar} from '../guitarContext'
-import {TUNINGS, wrap12} from '../lib/theory'
+import {SHARP_NAMES, TUNINGS, wrap12} from '../lib/theory'
 import cx from '../lib/cx'
 
-const OCTAVES = [1, 2, 3, 4, 5]
+const OCTAVES = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
 
 export function usePreset() {
@@ -51,9 +51,10 @@ export function TuningList() {
 }
 
 
-// Pitch and octave per string, low string first.
+// Pitch and octave per string, low string first. Names are fixed chromatic ones:
+// a key spelling like B♯ would put the note in the wrong octave.
 export function TuningEditor() {
-  const {state, update, key} = useGuitar()
+  const {state, update} = useGuitar()
   const count = state.tuning.length
 
   const set = (idx, pc, octave) => update(s => {
@@ -72,7 +73,7 @@ export function TuningEditor() {
       return <div className="tuning-editor__row" key={idx}>
         <span className="tuning-editor__label">{label}</span>
         <select aria-label={`${label} note`} value={pc} onChange={e => set(idx, Number(e.target.value), octave)}>
-          {Array.from({length: 12}, (_, p) => <option key={p} value={p}>{key.nameOf(p)}</option>)}
+          {Array.from({length: 12}, (_, p) => <option key={p} value={p}>{SHARP_NAMES[p]}</option>)}
         </select>
         <select aria-label={`${label} octave`} value={octave} onChange={e => set(idx, pc, Number(e.target.value))}>
           {OCTAVES.map(o => <option key={o} value={o}>{o}</option>)}

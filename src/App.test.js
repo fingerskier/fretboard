@@ -70,6 +70,40 @@ test('phone: key sheet opens from the header and closes with Done', () => {
 })
 
 
+test('phone: Tab stays inside an open sheet and the app behind it is inert', () => {
+  mockViewport(true)
+  render(<App />)
+  
+  fireEvent.click(screen.getByRole('button', {name: /^G major/}))
+  const sheet = screen.getByRole('dialog', {name: 'Key'})
+  const done = within(sheet).getByRole('button', {name: 'Done'})
+  const mode = within(sheet).getByRole('combobox', {name: 'Mode'})
+  
+  done.focus()
+  fireEvent.keyDown(sheet, {key: 'Tab', shiftKey: true})
+  expect(document.activeElement).toBe(mode)
+  
+  fireEvent.keyDown(sheet, {key: 'Tab'})
+  expect(document.activeElement).toBe(done)
+  
+  expect(document.querySelector('.phone-top')).toHaveAttribute('inert')
+  fireEvent.keyDown(sheet, {key: 'Escape'})
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  expect(document.querySelector('.phone-top')).not.toHaveAttribute('inert')
+})
+
+
+test('a migrated tuning keeps octaves outside the usual range', () => {
+  mockViewport(false)
+  localStorage.setItem('guitarTuning', JSON.stringify(['e0', 'a2', 'd3', 'g3', 'b3', 'e4']))
+  render(<App />)
+  
+  fireEvent.click(screen.getByRole('button', {name: 'Edit strings'}))
+  expect(screen.getByRole('combobox', {name: 'String 6 (low) octave'})).toHaveValue('0')
+  expect(screen.getByRole('combobox', {name: 'String 6 (low) note'})).toHaveValue('4')
+})
+
+
 test('an old saved tuning with the octave-low high string is repaired', () => {
   mockViewport(false)
   localStorage.setItem('guitarTuning', JSON.stringify(['e2', 'a2', 'd3', 'g3', 'b3', 'e3']))

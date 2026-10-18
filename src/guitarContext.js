@@ -22,7 +22,8 @@ export const DEFAULTS = {
 }
 
 
-const isPitch = n => Number.isInteger(n) && n >= 0 && n <= 120
+// Octaves 0-8, the range the tuning editor offers.
+const isPitch = n => Number.isInteger(n) && n >= 12 && n <= 119
 
 
 // Keep only well-formed saved values so a bad localStorage entry can't break the app.
