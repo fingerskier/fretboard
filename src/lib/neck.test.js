@@ -59,6 +59,8 @@ test('position and string group fade what they leave out', () => {
 test('hidden degrees drop out and labels follow the chosen mode', () => {
   const hideRoot = neck({hidden: [0]})
   expect(cellAt(hideRoot, 6, 3)).toBeUndefined()
+  expect(cellAt(neck({hidden: [0], showAll: true}), 6, 3)).toBeUndefined()
+  expect(cellAt(neck({hidden: [0], chord: diatonicChords(G_MAJOR)[0]}), 6, 3)).toBeUndefined()
 
   expect(cellAt(neck({label: 'interval'}), 6, 2).label).toBe('7')
   expect(cellAt(neck({label: 'pitch'}), 1, 3).label).toBe('G4')

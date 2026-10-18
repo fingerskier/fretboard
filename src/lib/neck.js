@@ -38,7 +38,10 @@ export function buildNeck({key, chord, tuning, frets, label, showAll, pos, group
       const midi = string.open + fret
       const pc = wrap12(midi)
       const scaleNote = key.byPc[pc]
-      const inScale = !!scaleNote && !hidden.includes(key.notes.indexOf(scaleNote))
+      // a hidden degree stays hidden even as a chord tone or with every note shown
+      if (scaleNote && hidden.includes(key.notes.indexOf(scaleNote))) continue
+
+      const inScale = !!scaleNote
       const role = chordRole[pc]
 
       let kind
