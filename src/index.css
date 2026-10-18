@@ -1,13 +1,43 @@
+:root {
+  color-scheme: dark;
+
+  --bg: #111317;
+  --surface: #1A1D23;
+  --surface-2: #20242B;
+  --line: #2A2F38;
+  --line-2: #3A404A;
+  --text: #E6E8EB;
+  --muted: #A3A9B3;
+
+  --board: #16191E;
+  --open: #121418;
+  --fret: #3A404A;
+  --nut: #C9CED6;
+  --string: #59606B;
+  --string-wound: #6F6858;
+  --inlay: #2E343D;
+
+  --key: #2DD4BF;
+  --key-ink: #042F2E;
+  --key-tint: #173330;
+  --chord: #FBBF24;
+  --chord-ink: #2A1A00;
+  --ring: #F8FAFC;
+  --focus: #7DD3FC;
+
+  --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: var(--mono);
 }
