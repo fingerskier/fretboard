@@ -1,7 +1,7 @@
 name: Deploy
 
-# Pull requests run the tests and build. Pushes to main also publish build/ to the
-# gh-pages branch, which GitHub Pages serves, the same way `npm run deploy` does by hand.
+# Pull requests run the tests and build. Pushes to main also deploy build/ to GitHub Pages,
+# which needs Settings → Pages → Source set to "GitHub Actions".
 on:
   push:
     branches: [main]
@@ -27,42 +27,23 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
-      - if: github.event_name != 'pull_request'
-        uses: actions/upload-artifact@v7
+      - uses: actions/upload-pages-artifact@v5
         with:
-          name: site
           path: build
-          retention-days: 7
 
   deploy:
     needs: build
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     concurrency:
-      group: gh-pages
+      group: pages
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - uses: actions/download-artifact@v8
-        with:
-          name: site
-          path: build
-      - name: Publish to gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # gh-pages can't parse the bot's address from --user, so set it in git instead
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          npx gh-pages --dist build --silent \
-            --repo "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
-            --message "Deploy ${GITHUB_SHA}"
+      - id: deployment
+        uses: actions/deploy-pages@v5
